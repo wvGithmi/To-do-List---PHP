@@ -1,3 +1,7 @@
+<?php
+    require_once('connection.php');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +17,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="screen">
                 <div class="d-flex justify-content-center form_container">
-                    <form>
+                    <form action="register.php" method="post">
                         <h1>Hello!</h1>
                         <h2>Sign Up</h2>
                         <hr class="mb-4">
@@ -50,5 +54,50 @@
         </div>
     </div>
     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $('#register').click(function(e){
+
+                var valid = this.form.checkValidity();
+
+                if(valid){
+
+                    var username = $('#username').val();
+                    var password = $('#password').val();
+                    var email = $('#email').val();
+
+                    e.preventDefault();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'process_db.php',
+                        data: {username: username, password: password, email: email},
+                        success: function(data){
+                            Swal.fire({
+                                'title' : 'Successful!',
+                                'text' : data,
+                                'type' : 'success'
+                            })
+                        },
+                        error: function(data){
+                            Swal.fire({
+                                'title' : 'Error!',
+                                'text' : 'There were errors while saving the data.',
+                                'type' : 'error'
+                            })
+                        }
+                    });
+ 
+                }else{
+                   
+                }
+
+            });
+        });
+    </script>
+
 </body>
 </html>

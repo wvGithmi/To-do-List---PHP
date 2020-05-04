@@ -1,3 +1,19 @@
+<?php
+
+    session_start();
+
+    if(!isset($_SESSION['userlogin'])){
+        header("Location: login.php");
+    }
+
+    if(isset($_GET['logout'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location: login.php");
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +52,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center mt-3 button_container">
+                        <button type="button" name="button" id="logout" class="btn login_btn"><a href="index.php?logout=true">Logout</a></button>
+                    </div>
                 </form>
             </div>
         </div>

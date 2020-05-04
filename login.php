@@ -1,3 +1,13 @@
+<?php
+
+    session_start();
+
+    if(isset($_SESSION['userlogin'])){
+        header("Location: index.php");
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,6 +62,38 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function() {
+            $('#login').click(function(e){
+
+                var valid = this.form.checkValidity();
+
+                if(valid){
+                    var username = $('#username').val();
+                    var password = $('#password').val();
+                }
+                
+                e.preventDefault();
+
+                $.ajax({
+                    type:'POST',
+                    url: 'jslogin.php',
+                    data: {username: username, password: password},
+                    success: function(data){
+                        if($.trim(data) === "1"){
+                            setTimeout(' window.location.href = "index.php"', 2000);
+                        }
+                    },
+                    error: function(data){
+                        alert('There were errors while doing the operation.');
+                    }
+                });
+            });
+        });
+    </script>
     
 </body>
 </html>
