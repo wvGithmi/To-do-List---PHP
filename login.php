@@ -41,7 +41,7 @@
                     
                         <div class="mt-4">
                             <div class="d-flex justify-content-center mt-3 link1">
-                                Don't have an account? <a href="register.php" class="ml-2">Sign Up</a>
+                                <div class="sen">Don't have an account? </div><a href="register.php" class="ml-2">Sign Up</a>
                             </div>
                             <div class="d-flex justify-content-center link2">
                                 <a href="#">Forgot your password?</a>
