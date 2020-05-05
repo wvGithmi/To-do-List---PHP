@@ -1,5 +1,5 @@
 <?php
-
+/*
     session_start();
 
     if(!isset($_SESSION['userlogin'])){
@@ -11,7 +11,11 @@
         unset($_SESSION);
         header("Location: login.php");
     }
+*/
+?>
 
+<?php
+    require 'connection.php';
 ?>
 
 <!DOCTYPE html>
@@ -28,15 +32,38 @@
     <div class="container h-100">
         <div class="d-flex justify-content-center h-100">
             <div class="screen1">
-                <from>
-                    <div class="d-flex justify-content-center h-100 heading">
+                <form action="">
+                    <div class="d-flex justify-content-center heading">
                         <h1>To - Do List</h1>
                     </div>
-                    <div class="input-group mb-4">
-                        <input type="text" name="task" class="form-control task_input" required>
-                        <button type="submit" class="task_btn" name="submit">Add Task</button>
+                    <div class="input-group">
+                        <input type="text" name="task" id="task" class="form-control input_task" placeholder="Enter your task" required>
+                        <button type="submit" class="task_btn" name="submit" id="add">Add <b>&nbsp; &#43;</b></button>
                     </div>
-                    <table class="table table-hover">
+                </form>
+                    <?php
+                        $todos = $db->query("SELECT * FROM tasks ORDER BY id DESC");
+                    ?>
+                    <div class="input-group show-todo-section">
+                        <?php while($todo = $todos->fetch(PDO::FETCH_ASSOC)) { ?>
+                            <div class="todo-item">
+                                <input type="checkbox" class="form-check-input">
+                                <p><?php echo $todo['Task'] ?></p>
+                                <small>Created: 04/05/2020</small>   
+                            </div>
+                        <?php } ?>
+
+                            
+                                
+                
+
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+   
+                    <!--<table class="table table-hover">
                         <thead>
                             <tr>
                                 <th>No.</th>
@@ -58,7 +85,48 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div>-->
+
+    <!--<script type="text/javascript">
+        $(function(){
+            $('#add').click(function(e){
+
+                var valid = this.form.checkValidity();
+
+                if(valid){
+
+                    var task = $('#task').val();
+                    var username = $('#username').val();
+
+                    e.preventDefault();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'process_task.php',
+                        data: {task: task, username: username},
+                        success: function(data){
+                            Swal.fire({
+                                'title' : 'Successful!',
+                                'text' : data,
+                                'type' : 'success'
+                            })
+                        },
+                        error: function(data){
+                            Swal.fire({
+                                'title' : 'Error!',
+                                'text' : 'There were errors while saving the data.',
+                                'type' : 'error'
+                            })
+                        }
+                    });
+ 
+                }else{
+                   
+                }
+
+            });
+        });
+    </script>-->
     
 </body>
 </html>

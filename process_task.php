@@ -1,15 +1,17 @@
 <?php
     require_once('connection.php');
+?>
+
+<?php
 
     if(isset($_POST)){
 
+        $task = $_POST['task'];
         $username = $_POST['username'];
-        $password = sha1($_POST['password']);
-        $email = $_POST['email'];
 
-        $sql = "INSERT INTO user (Username, Password, Email) VALUES(?,?,?)";
+        $sql = "INSERT INTO tasks (Task, Username) VALUES(?,?)";
         $stmtinsert = $db->prepare($sql);
-        $result = $stmtinsert->execute([$username, $password, $email]);
+        $result = $stmtinsert->execute([$task, $username]);
         if($result){
             echo 'Successfully saved.';
         }else{

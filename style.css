@@ -80,7 +80,7 @@ small, .sen{
 }
 
 .screen1{
-    height: 650px;
+    height: 750px;
     width: 600px;
     margin-top: auto;
     margin-bottom: auto;
@@ -95,31 +95,66 @@ small, .sen{
     border-radius: 5px;
 }
 .screen1 .heading{
+    margin: 30px;
     color: #B6244F;
 }
-.task_input{
-    width: 20%;
+.input_task{
     height: 50px;
-    padding: 10px;
+    margin-right: 10px;
     border: 2px solid #4E0408;
+    font-size: 18px;
+    border-radius: 10px;   
 }
 .task_btn{
     height: 40px;
+    color: #4E0408;
     background: #C24B47 !important;
     border: 2px solid #C24B47;
     border-radius: 5px;
-    padding: 5px 20px;
-    margin: 5px 10px;
-    color: #4E0408;
     font-size: 18px;
     font-weight: bold;
+    padding: 5px 20px;
+    margin: 5px;
+    cursor: pointer;
 }
 .task_btn:hover{
     box-shadow: 0 2px 2px 0 silver;
     -webkit-box-shadow: 0 2px 2px 0 silver;
     -moz-box-shadow: 0 2px 2px 0 silver;
 }
-.table{
+.show-todo-section{
+    margin-bottom: 100px;
+    background: whitesmoke;
+    border-radius: 5px;
+    margin-top: 35px;
+}
+.todo-item{
+    width: 95%;
+    height: 100px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: rgb(223, 211, 211);
+    border: 2px solid #4E0408;
+    border-radius: 5px;
+}
+.todo-item p{
+    font-size: 18px;
+    color: #1E1E64;
+}
+.todo-item small{
+    width: 100%;
+    color: #4E0408;
+    font-size: 14px;
+}
+.todo-item input{
+    margin: 10px 5px;
+}
+
+
+
+
+
+/*.table{
     background: whitesmoke;
 }
 th{
@@ -142,6 +177,44 @@ td{
 }
 .delete a:hover{
     text-decoration: none;
+}*/
+
+
+
+
+
+/*#errorMes{
+    display: block;
+    background: #f2dede;
+    width: 95%;
+    margin: 0px auto;
+    color: rgb(139, 19, 19);
+    padding: 10px;
+    height: 35px;
 }
+
+.remove-to-do{
+    display: block;
+    float: right;
+    width: 20px;
+    height: 20px;
+    font-family: sans-serif;
+    color: rgb(139, 97, 93);
+    text-decoration: none;
+    text-align: right;
+    padding: 0px 5px 8px 0px;
+    border-radius: 50%;
+    transition: background 1s;
+    cursor: pointer;
+}
+.remove-to-do:hover{
+    background: rgb(139, 97, 93);
+    color: #fff
+}
+.checked{
+    color: #999 !important;
+    text-decoration: line-through;
+}
+*/
 
 
