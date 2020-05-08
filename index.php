@@ -1,4 +1,20 @@
 <?php
+
+session_start();
+
+    if(!isset($_SESSION['userlogin'])){
+        header("Location: login.php");
+    }
+
+    if(isset($_GET['logout'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location: login.php");
+    }
+
+?>
+
+<?php
     require 'connection.php';
 ?>
 
@@ -19,6 +35,7 @@
                 <form action="add.php" method="POST" autocomplete="off">
                     <div class="d-flex justify-content-center heading">
                         <h1>To - Do List</h1>
+                        <h2><?php ?></h2>
                     </div>
                     <?php if(isset($_GET['mess']) && $_GET['mess'] == 'error'){ ?>
                         <div class="input-group">
@@ -37,11 +54,9 @@
                 ?>
                 <div class="input-group show-todo-section">
                     <?php if($todos->rowCount() <= 0){ ?>
-                        
                             <div class="empty">
                                 <img src="unnamed.jpg" width="100%">
                             </div>
-                        
                     <?php } ?>
                 
                     <?php while($todo = $todos->fetch(PDO::FETCH_ASSOC)) { ?>
