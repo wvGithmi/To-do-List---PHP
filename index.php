@@ -1,20 +1,4 @@
 <?php
-/*
-    session_start();
-
-    if(!isset($_SESSION['userlogin'])){
-        header("Location: login.php");
-    }
-
-    if(isset($_GET['logout'])){
-        session_destroy();
-        unset($_SESSION);
-        header("Location: login.php");
-    }
-*/
-?>
-
-<?php
     require 'connection.php';
 ?>
 
@@ -32,101 +16,94 @@
     <div class="container h-100">
         <div class="d-flex justify-content-center h-100">
             <div class="screen1">
-                <form action="">
+                <form action="add.php" method="POST" autocomplete="off">
                     <div class="d-flex justify-content-center heading">
                         <h1>To - Do List</h1>
                     </div>
-                    <div class="input-group">
-                        <input type="text" name="task" id="task" class="form-control input_task" placeholder="Enter your task" required>
-                        <button type="submit" class="task_btn" name="submit" id="add">Add <b>&nbsp; &#43;</b></button>
-                    </div>
+                    <?php if(isset($_GET['mess']) && $_GET['mess'] == 'error'){ ?>
+                        <div class="input-group">
+                            <input type="text" name="task" id="task" class="form-control input_task" placeholder="Enter your task" required>
+                            <button type="submit" class="task_btn" name="submit" id="add">Add <b>&nbsp; &#43;</b></button>
+                        </div>
+                    <?php }else{ ?>
+                        <div class="input-group">
+                            <input type="text" name="task" id="task" class="form-control input_task" placeholder="What do you need to do?" required>
+                            <button type="submit" class="task_btn" name="submit" id="add">Add <b>&nbsp; &#43;</b></button>
+                        </div>
+                    <?php } ?>
                 </form>
-                    <?php
-                        $todos = $db->query("SELECT * FROM tasks ORDER BY id DESC");
-                    ?>
-                    <div class="input-group show-todo-section">
-                        <?php while($todo = $todos->fetch(PDO::FETCH_ASSOC)) { ?>
-                            <div class="todo-item">
-                                <input type="checkbox" class="form-check-input">
-                                <p><?php echo $todo['Task'] ?></p>
-                                <small>Created: 04/05/2020</small>   
+                <?php
+                    $todos = $db->query("SELECT * FROM tasks ORDER BY id DESC");
+                ?>
+                <div class="input-group show-todo-section">
+                    <?php if($todos->rowCount() <= 0){ ?>
+                        
+                            <div class="empty">
+                                <img src="unnamed.jpg" width="100%">
                             </div>
-                        <?php } ?>
-
-                            
-                                
+                        
+                    <?php } ?>
                 
-
-                    </div>
-                
+                    <?php while($todo = $todos->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <div class="todo-item">
+                            <span Id="<?php echo $todo['Id']; ?>" class="remove-to-do">x</span>
+                            <?php if($todo['Checked']){ ?>
+                                <input type="checkbox" class="check-box form-check-input" data-todo-id="<?php echo $todo['Id']; ?>" checked />
+                                <p class="checked"><?php echo $todo['Task'] ?></p>
+                            <?php }else{ ?>
+                                <input type="checkbox" data-todo-id="<?php echo $todo['Id']; ?>" class="check-box form-check-input" />
+                                <p><?php echo $todo['Task'] ?></p>
+                            <?php } ?>
+                            <br>
+                            <small>Created: <?php echo $todo['Date_Time'] ?></small> 
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
         </div>
     </div>
-   
-                    <!--<table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Task</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>First Task</td>
-                                <td class="delete"><a href="#">x</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-center mt-3 button_container">
-                        <button type="button" name="button" id="logout" class="btn login_btn"><a href="index.php?logout=true">Logout</a></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>-->
 
-    <!--<script type="text/javascript">
-        $(function(){
-            $('#add').click(function(e){
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+        
+    <script>
+        $(document).ready(function(){
+            $('.remove-to-do').click(function(){
+                const Id = $(this).attr('Id');
 
-                var valid = this.form.checkValidity();
-
-                if(valid){
-
-                    var task = $('#task').val();
-                    var username = $('#username').val();
-
-                    e.preventDefault();
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'process_task.php',
-                        data: {task: task, username: username},
-                        success: function(data){
-                            Swal.fire({
-                                'title' : 'Successful!',
-                                'text' : data,
-                                'type' : 'success'
-                            })
-                        },
-                        error: function(data){
-                            Swal.fire({
-                                'title' : 'Error!',
-                                'text' : 'There were errors while saving the data.',
-                                'type' : 'error'
-                            })
+                $.post("remove.php",
+                    {
+                        Id: Id
+                    },
+                    (data) => {
+                        if(data){
+                            $(this).parent().hide(600);
                         }
-                    });
- 
-                }else{
-                   
-                }
-
+                    }
+                );
             });
+
+            $(".check-box").click(function(e){
+                const id = $(this).attr('data-todo-id');
+                
+                $.post('check.php',
+                    {
+                        Id: Id
+                    },
+                    (data) => {
+                        if(data != 'error'){
+                            const p = $(this).next();
+                            if(data === '1'){
+                                p.removeClass('checked');
+                            }else{
+                                p.addClass('checked');
+                            }
+                        }
+                    }
+                );
+            });
+
         });
-    </script>-->
-    
+    </script>
+
 </body>
 </html>
